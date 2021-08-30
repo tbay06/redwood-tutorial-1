@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -8,17 +8,35 @@ generator client {
   binaryTargets = "native"
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  body      String
-  createdAt DateTime @default(now())
-}
-
-model Contact {
+model User {
   id        Int      @id @default(autoincrement())
   name      String
   email     String
-  message   String
   createdAt DateTime @default(now())
+}
+
+model Drug {
+  id              String   @id
+  medicinalIngredient String?
+  brandName           String?
+  routeOfAdmin        String?
+  strengthPerUnit     String?
+  humanOrVet          String?
+  therapeuticClass    String?
+  dosageForm          String?
+  din                 String?
+  createdAt           DateTime @default(now())
+  Patent              Patent[]
+}
+
+model Patent {
+  id             Int       @id @default(autoincrement())
+  drugId         String
+  patentNum      String
+  filingDate     DateTime?
+  dateGranted    DateTime?
+  expirationDate DateTime?
+  companyName    String?
+  Drug           Drug      @relation(fields: [drugId], references: [id])
+  createdAt      DateTime  @default(now())
 }

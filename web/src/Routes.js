@@ -8,26 +8,29 @@
 // 'src/pages/Admin/BooksPage/BooksPage.js' -> AdminBooksPage
 
 import { Router, Route, Private, Set } from '@redwoodjs/router'
-import PostsLayout from 'src/layouts/PostsLayout'
-import BlogLayout from 'src/layouts/BlogLayout'
+import PatentsLayout from 'src/layouts/PatentsLayout'
+import DrugsLayout from 'src/layouts/DrugsLayout'
+import AppLayout from 'src/layouts/AppLayout'
 
 const Routes = () => {
   return (
     <Router>
-      <Set wrap={BlogLayout}>
-        <Route path="/contact" page={ContactPage} name="contact" />
-        <Route path="/blog-post/{id:Int}" page={BlogPostPage} name="blogPost" />
-        <Route path="/about" page={AboutPage} name="about" />
+      <Set wrap={PatentsLayout}>
+        <Route path="/patents/new" page={PatentNewPatentPage} name="newPatent" />
+        <Route path="/patents/{id:Int}/edit" page={PatentEditPatentPage} name="editPatent" />
+        <Route path="/patents/{id:Int}" page={PatentPatentPage} name="patent" />
+        <Route path="/patents" page={PatentPatentsPage} name="patents" />
+      </Set>
+      <Set wrap={DrugsLayout}>
+        <Route path="/drugs/new" page={DrugNewDrugPage} name="newDrug" />
+        <Route path="/drugs/{id}/edit" page={DrugEditDrugPage} name="editDrug" />
+        <Route path="/drugs/{id}" page={DrugDrugPage} name="drug" />
+        <Route path="/drugs" page={DrugDrugsPage} name="drugs" />
+      </Set>
+      <Set wrap={AppLayout}>
         <Route path="/" page={HomePage} name="home" />
       </Set>
-      <Private unauthenticated="home">
-        <Set wrap={PostsLayout}>
-          <Route path="/admin/posts/new" page={PostNewPostPage} name="newPost" />
-          <Route path="/admin/posts/{id:Int}/edit" page={PostEditPostPage} name="editPost" />
-          <Route path="/admin/posts/{id:Int}" page={PostPostPage} name="post" />
-          <Route path="/admin/posts" page={PostPostsPage} name="posts" />
-        </Set>
-      </Private>
+      <Private unauthenticated="home"></Private>
       <Route notfound page={NotFoundPage} />
     </Router>
   )
